@@ -1,6 +1,7 @@
 import logging
 import os
 import threading
+import time
 
 from bot import Bot
 from config import Config, ConfigWizard
@@ -32,7 +33,7 @@ class BotThread(threading.Thread):
         """
         Runs the Bot class's start() method on a separate thread
         """
-
+        self._stop_event = threading.Event()
         self.logger.info("Starting thread with id:{}".format(self.threadID))
         self.bot.start(self)
         self.logger.info("Stopping thread with id:{}".format(self.threadID))
@@ -90,8 +91,24 @@ thread.start()
 command = ""
 logger.info("Command-line enabled:")
 
-while not command == "quit":
-    command = input()
+# TODO: Implement cli in another thread
+# while not command == "quit":
+#     command = input()
+
+#     if not thread.is_alive():
+#         if command == "restart":
+#             logger.info("Restarting the bot...")
+#             thread.start()
+
+#     if command == "stop":
+#         logger.warning("Stopping the bot...")
+#         thread.stop()
+
+while True:
+    if not thread.is_alive():
+        logger.warning("Bot died, attempting to restart...")
+        thread.start()
+    time.sleep(10)
 
 # Close bot thread
 thread.stop()
