@@ -24,7 +24,7 @@ class BotPlugin(Plugin):
 			draw = ImageDraw.Draw(image)
 
 			try:
-				font = ImageFont.truetype("comic.ttf", 64)
+				font = ImageFont.truetype("/comic.ttf", 64)
 			except:
 				font = ImageFont.load_default()
 			random.shuffle(self.colors)
