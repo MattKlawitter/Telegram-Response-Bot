@@ -1,6 +1,5 @@
 from plugin import Plugin
 
-# Name the class the name of your plugin
 class BotPlugin(Plugin):
     def __init__(self, data_dir, bot):
         self.dir = data_dir
