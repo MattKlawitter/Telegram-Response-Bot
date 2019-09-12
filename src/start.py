@@ -92,23 +92,17 @@ command = ""
 logger.info("Command-line enabled:")
 
 # TODO: Implement cli in another thread
-# while not command == "quit":
-#     command = input()
+while not command == "quit":
+    command = input()
 
-#     if not thread.is_alive():
-#         if command == "restart":
-#             logger.info("Restarting the bot...")
-#             thread.start()
-
-#     if command == "stop":
-#         logger.warning("Stopping the bot...")
-#         thread.stop()
-
-while True:
     if not thread.is_alive():
-        logger.warning("Bot died, attempting to restart...")
-        thread.start()
-    time.sleep(10)
+        if command == "restart":
+            logger.info("Restarting the bot...")
+            thread.start()
+
+    if command == "stop":
+        logger.warning("Stopping the bot...")
+        thread.stop()
 
 # Close bot thread
 thread.stop()
