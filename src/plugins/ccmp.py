@@ -16,7 +16,7 @@ class BotPlugin(Plugin):
         if not self.bank.account_exists(user):
             self.bank.create_account(user)
 
-        balance = self.account_manager.get_balance(user)
+        balance = self.bank.get_balance(user)
         return "CCMP: Hello {}, you have {} {}.".format(user, balance, self.currency_name)
 
     # Sends currency to another user, subtracting that amount from the sender

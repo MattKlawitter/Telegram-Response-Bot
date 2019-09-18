@@ -103,11 +103,10 @@ logger.info("Command-line enabled:")
 #     if command == "stop":
 #         logger.warning("Stopping the bot...")
 #         thread.stop()
-while True:
-    if not thread.is_alive():
-        logger.warning("Bot died, attempting to restart...")
-        thread.start()
+while thread.is_alive():
     time.sleep(10)
+
+logger.warning("Bot shutdown due to killed thread.")
 
 # Close bot thread
 thread.stop()
