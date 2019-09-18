@@ -121,13 +121,13 @@ class BotPlugin(Plugin):
         return "CCMP"
 
     def get_help(self):
-        return "Custom Currancy Management Plug:\n \
-                '/ccbalance' to see account balance\n \
-                '/ccpay [user] [amount]' to pay a user\n \
-                '/ccbet [amount]' to put currency in the betting pool\n \
-                '/ccsetname [name]' to change the name of the currency\n \
-                '/ccpayout [user] [amount]' to payout from betting pool\n \
-                '/ccpool' to see the amount in the betting pool"
+        return "Custom Currancy Management Plug:\n" \
+               "'/ccbalance' to see account balance\n" \
+               "'/ccpay [user] [amount]' to pay a user\n" \
+               "'/ccbet [amount]' to put currency in the betting pool\n" \
+               "'/ccsetname [name]' to change the name of the currency\n" \
+               "'/ccpayout [user] [amount]' to payout from betting pool\n" \
+               "'/ccpool' to see the amount in the betting pool"
 
     def on_message(self, message):
         # Implementation not required
