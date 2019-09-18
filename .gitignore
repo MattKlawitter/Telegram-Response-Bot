@@ -1,6 +1,7 @@
 config.txt
 bot.log
 launch.json
+bank.json
 src/plugins/*/
 src/plugins/*/*
 plugins/*
