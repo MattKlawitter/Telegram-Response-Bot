@@ -168,7 +168,7 @@ class Bot:
 		self.logger.info("Sending message ({}) to channel with id {}".format(message, id))
 		return requests.get(self.base_url + 'sendMessage', params=dict(chat_id=id, text=message))
 
-	def send_photo(self, id, message, file_name):
+	def send_photo(self, id, caption, file_path):
 		"""
 		Sends a photo found with the designated filename with an optional caption string message to a chatroom containing the designated id
 
@@ -182,14 +182,81 @@ class Bot:
 		message: optional
 			An optional string to send with an image as a caption
 
-		file_name: str
-			The filename of the photo to send to a Telegram chatroom
+		file_path: str
+			The file path of the photo to send to a Telegram chatroom
 		"""
 
-		files = {'photo': open(file_name, 'rb')}
-		data = dict(chat_id=id, caption=message)
+		path = {'photo': open(file_path, 'rb')}
+		data = dict(chat_id=id, caption=caption)
 
-		self.logger.info("Sending photo with caption ({}) with filename ({}) to channel with id {}".format(message, file_name, id))
-		return requests.get(self.base_url + 'sendPhoto', files=files, data=data)
+		self.logger.info("Sending photo with caption ({}) with path ({}) to channel with id {}".format(caption, file_path, id))
+		return requests.get(self.base_url + 'sendPhoto', files=path, data=data)
 
+	def send_audio(self, id, caption, file_path):
+		path = {'audio': open(file_path, 'rb')}
+		data = dict(chat_id=id, caption=caption)
 
+		self.logger.info("Sending audio with caption ({}) with path ({}) to channel with id {}".format(caption, file_path, id))
+		return requests.get(self.base_url + 'sendAudio', files=path, data=data)
+
+	def send_document(self, id, caption, file_path):
+		path = {'document': open(file_path, 'rb')}
+		data = dict(chat_id=id, caption=caption)
+
+		self.logger.info("Sending document with caption ({}) with path ({}) to channel with id {}".format(caption, file_path, id))
+		return requests.get(self.base_url + 'sendDocument', files=path, data=data)
+
+	def send_video(self, id, caption, file_path):
+		path = {'video': open(file_path, 'rb')}
+		data = dict(chat_id=id, caption=caption)
+
+		self.logger.info("Sending video with caption ({}) with path ({}) to channel with id {}".format(caption, file_path, id))
+		return requests.get(self.base_url + 'sendVideo', files=path, data=data)
+	
+	def send_animation(self, id, caption, file_path):
+		path = {'animation': open(file_path, 'rb')}
+		data = dict(chat_id=id, caption=caption)
+
+		self.logger.info("Sending animation with caption ({}) with path ({}) to channel with id {}".format(caption, file_path, id))
+		return requests.get(self.base_url + 'sendAnimation', files=path, data=data)
+
+	def send_voice(self, id, caption, file_path):
+		path = {'voice': open(file_path, 'rb')}
+		data = dict(chat_id=id, caption=caption)
+
+		self.logger.info("Sending voice with caption ({}) with path ({}) to channel with id {}".format(caption, file_path, id))
+		return requests.get(self.base_url + 'sendVoice', files=path, data=data)
+
+	def send_location(self, id, latitude, longitude):
+		data = dict(chat_id=id, latitude=latitude, longitude=longitude)
+
+		self.logger.info("Sending location with latitude ({}) and longitude ({}) to channel with id {}".format(latitude, longitude, id))
+		return requests.get(self.base_url + 'sendLocation', data=data)
+
+	def send_poll(self, id, question, options):
+		# Note: options are an array of strings
+		data = dict(chat_id=id, question=question, options=options)
+
+		self.logger.info("Sending poll with question ({}) to channel with id {}".format(question, id))
+		return requests.get(self.base_url + 'sendPoll', data=data)
+
+	def kick_chat_member(self, id, user_id, until_date):
+		# until_date is an integer, if banned for more than 366 days or less than 30 seconds it is forever
+		data = dict(chat_id=id, user_id=user_id, until_date=until_date)
+
+		self.logger.info("Kicking user with id ({}) for ({}) seconds, from channel with id {}".format(user_id, until_date, id))
+		return requests.get(self.base_url + 'kickChatMember', data=data)
+
+	def unban_chat_member(self, id, user_id):
+		data = dict(chat_id=id, user_id=user_id)
+
+		self.logger.info("Unbanning user with id ({}) from channel with id {}".format(user_id, id))
+		return requests.get(self.base_url + 'unbanChatMember', data=data)
+
+	def restrict_chat_member(self, id, user_id, permissions, until_date):
+		# permissions is a ChatPermissions object that has yet to be created...
+		# until_date is an integer, if banned for more than 366 days or less than 30 seconds it is forever
+		data = dict(chat_id=id, user_id=user_id, permissions=permissions, until_date=until_date)
+
+		self.logger.info("Restricting user with id ({}) for ({}) seconds, from channel with id {}".format(user_id, until_date, id))
+		return requests.get(self.base_url + 'restrictChatMember', data=data)
