@@ -193,6 +193,23 @@ class Bot:
 		return requests.get(self.base_url + 'sendPhoto', files=path, data=data)
 
 	def send_audio(self, id, caption, file_path):
+		"""
+		Sends an audio file found at the given path with an optional caption message to a chatroom containing the designated id
+
+		...
+
+		Parameters
+		----------
+		id: str
+			The id of the chatroom to send a message to.
+
+		message: optional
+			An optional string to send with an image as a caption
+
+		file_path: str
+			The file path of the audio to send to a Telegram chatroom
+		"""
+
 		path = {'audio': open(file_path, 'rb')}
 		data = dict(chat_id=id, caption=caption)
 
@@ -200,6 +217,23 @@ class Bot:
 		return requests.get(self.base_url + 'sendAudio', files=path, data=data)
 
 	def send_document(self, id, caption, file_path):
+		"""
+		Sends a document file found at the given path with an optional caption message to a chatroom containing the designated id
+
+		...
+
+		Parameters
+		----------
+		id: str
+			The id of the chatroom to send a message to.
+
+		message: optional
+			An optional string to send with an image as a caption
+
+		file_path: str
+			The file path of the document to send to a Telegram chatroom
+		"""
+
 		path = {'document': open(file_path, 'rb')}
 		data = dict(chat_id=id, caption=caption)
 
@@ -207,6 +241,23 @@ class Bot:
 		return requests.get(self.base_url + 'sendDocument', files=path, data=data)
 
 	def send_video(self, id, caption, file_path):
+		"""
+		Sends a video file found at the given path with an optional caption message to a chatroom containing the designated id
+
+		...
+
+		Parameters
+		----------
+		id: str
+			The id of the chatroom to send a message to.
+
+		message: optional
+			An optional string to send with an image as a caption
+
+		file_path: str
+			The file path of the video to send to a Telegram chatroom
+		"""
+
 		path = {'video': open(file_path, 'rb')}
 		data = dict(chat_id=id, caption=caption)
 
@@ -214,6 +265,23 @@ class Bot:
 		return requests.get(self.base_url + 'sendVideo', files=path, data=data)
 	
 	def send_animation(self, id, caption, file_path):
+		"""
+		Sends an animation file (gif) found at the given path with an optional caption message to a chatroom containing the designated id
+
+		...
+
+		Parameters
+		----------
+		id: str
+			The id of the chatroom to send a message to.
+
+		message: optional
+			An optional string to send with an image as a caption
+
+		file_path: str
+			The file path of the animation gif to send to a Telegram chatroom
+		"""
+
 		path = {'animation': open(file_path, 'rb')}
 		data = dict(chat_id=id, caption=caption)
 
@@ -221,6 +289,23 @@ class Bot:
 		return requests.get(self.base_url + 'sendAnimation', files=path, data=data)
 
 	def send_voice(self, id, caption, file_path):
+		"""
+		Sends a voice file (.ogg) found at the given path with an optional caption message to a chatroom containing the designated id
+
+		...
+
+		Parameters
+		----------
+		id: str
+			The id of the chatroom to send a message to.
+
+		message: optional
+			An optional string to send with an image as a caption
+
+		file_path: str
+			The file path of the voice (.ogg) to send to a Telegram chatroom
+		"""
+
 		path = {'voice': open(file_path, 'rb')}
 		data = dict(chat_id=id, caption=caption)
 
@@ -228,34 +313,123 @@ class Bot:
 		return requests.get(self.base_url + 'sendVoice', files=path, data=data)
 
 	def send_location(self, id, latitude, longitude):
+		"""
+		Sends a location with a given latitude and longitude to a chatroom containing the designated id
+
+		...
+
+		Parameters
+		----------
+		id: str
+			The id of the chatroom to send a message to.
+
+		latitude: float
+			The latitude of the location to share
+
+		longitude: float
+			The longitude of the location to share
+		"""
+
 		data = dict(chat_id=id, latitude=latitude, longitude=longitude)
 
 		self.logger.info("Sending location with latitude ({}) and longitude ({}) to channel with id {}".format(latitude, longitude, id))
 		return requests.get(self.base_url + 'sendLocation', data=data)
 
 	def send_poll(self, id, question, options):
-		# Note: options are an array of strings
+		"""
+		Sends an poll with a str question and a str array of options to a chatroom containing the designated id
+
+		...
+
+		Parameters
+		----------
+		id: str
+			The id of the chatroom to send a message to.
+
+		question: str
+			The question asked within the poll
+
+		options: array of str
+			An array of strings containing poll options
+		"""
+
 		data = dict(chat_id=id, question=question, options=options)
 
 		self.logger.info("Sending poll with question ({}) to channel with id {}".format(question, id))
 		return requests.get(self.base_url + 'sendPoll', data=data)
 
 	def kick_chat_member(self, id, user_id, until_date):
-		# until_date is an integer, if banned for more than 366 days or less than 30 seconds it is forever
+		"""
+		Kicks a user with user_id, from a channel with id, until a period of until_date seconds has passed
+		The user is effectively banned until the period of time of elapsed
+		If until_date exceeds more than 366 days or is less than 30 seconds, the ban is forever
+		Note that the bot must be an admin within this chatroom
+
+		...
+
+		Parameters
+		----------
+		id: str
+			The id of the chatroom to send a message to.
+
+		user_id: str
+			The id of the user to be kicked/banned
+
+		until_date: int
+			The period of time in seconds the user is kicked for. If this value is greater than 366 days or less than 30 seconds
+			the ban is forever and the user must be manually unbanned
+		"""
+
 		data = dict(chat_id=id, user_id=user_id, until_date=until_date)
 
 		self.logger.info("Kicking user with id ({}) for ({}) seconds, from channel with id {}".format(user_id, until_date, id))
 		return requests.get(self.base_url + 'kickChatMember', data=data)
 
 	def unban_chat_member(self, id, user_id):
+		"""
+		Unbans a user with user_id, from a channel with id. Note that the bot must be an admin within this chatroom
+
+		...
+
+		Parameters
+		----------
+		id: str
+			The id of the chatroom to unban a user from
+
+		user_id: str
+			The id of the user to be unbanned
+		"""
+
 		data = dict(chat_id=id, user_id=user_id)
 
 		self.logger.info("Unbanning user with id ({}) from channel with id {}".format(user_id, id))
 		return requests.get(self.base_url + 'unbanChatMember', data=data)
 
 	def restrict_chat_member(self, id, user_id, permissions, until_date):
-		# permissions is a ChatPermissions object that has yet to be created...
-		# until_date is an integer, if banned for more than 366 days or less than 30 seconds it is forever
+		"""
+		Restricts a user with user_id, from a channel with id, until a period of until_date seconds has passed
+		Restrictions are enacted through passing a ChatPermissions object, which can limit user actions such as chatting
+		If until_date exceeds more than 366 days or is less than 30 seconds, the ban is forever
+		Note that the bot must be an admin within this chatroom
+
+		...
+
+		Parameters
+		----------
+		id: str
+			The id of the chatroom to send a message to.
+
+		user_id: str
+			The id of the user to be kicked/banned
+
+		permissions: ChatPermissions
+			An object containing restriction details that are enforced upon the specific user
+
+		until_date: int
+			The period of time in seconds the user is kicked for. If this value is greater than 366 days or less than 30 seconds
+			the ban is forever and the user must be manually unbanned
+		"""
+
 		data = dict(chat_id=id, user_id=user_id, permissions=permissions, until_date=until_date)
 
 		self.logger.info("Restricting user with id ({}) for ({}) seconds, from channel with id {}".format(user_id, until_date, id))
