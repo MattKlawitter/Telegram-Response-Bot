@@ -191,3 +191,5 @@ class Bot:
 
 		self.logger.info("Sending photo with caption ({}) with filename ({}) to channel with id {}".format(message, file_name, id))
 		return requests.get(self.base_url + 'sendPhoto', files=files, data=data)
+
+

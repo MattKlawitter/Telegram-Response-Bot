@@ -1,9 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src",
-    "\\src\\plugins"
+    "\\src"
   ],
-  "SelectedNode": "\\src\\plugins\\ccmp.py",
+  "SelectedNode": "\\src\\command_wrappers.py",
   "PreviewInSolutionExplorer": false
 }
