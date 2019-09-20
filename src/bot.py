@@ -6,7 +6,7 @@ import time
 import threading
 import os
 
-from command_wrappers import Command, User, Chat, Message
+from telegram_objects import Command, User, Chat, Message
 from plugin_manager import PluginManager
 
 class Bot:
